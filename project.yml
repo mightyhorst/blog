@@ -1,0 +1,4 @@
+project:
+	name: blog
+	api:
+		users: [id: increments, email: email, pwd: password]
