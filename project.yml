@@ -1,4 +1,114 @@
 project:
-	name: blog
-	api:
-		users: [id: increments, email: email, pwd: password]
+  config:
+    tags: '{{*}}'
+  name: 'Vegas Baby, Vegas!'
+  devices:
+    all:
+      theme: 
+        id: '01_simple-sidebar'
+        url: 'https://github.com/mitni455/startbootstrap-simple-sidebar.git'
+        cards:
+          add:
+            menu:
+              ux: 
+                psd: '/uploads/theme/cool/cards/menu.psd'
+              name: 'menu'
+              html: 'cool'
+      groups:
+        public:
+          layout: 'border'
+          master: 'dashboard'
+            north: 
+              cards: 
+                menu:
+                  connect: 
+                    pages: 'api.pages.all()'
+            south: 
+              cards: ['footer']
+            west:
+              cards: ['menu']
+            content:
+              cards:
+                form:
+                  elements:
+                    select:
+                      name: 'page'
+                      value: 'api.pages.all()'
+                    input:
+                      name: 'name'
+                      value: 'api.pages.where(id, page.value)'
+                about_us:
+                  id: 'about_us'
+                  connect:
+                    contact: ['api.users.findByEmail(nickymitch@gmail.com)', {name: 'Nick', email: 'nickymitch@gmail.com'}]
+                hero_unit
+                team
+          pages:
+            - home
+            - about
+            - contact
+        users:
+          layout: 'dashboard'
+          route: '/home'
+          pages:
+            - dashboard
+            - orders
+            - bills
+        admin: 
+          - dashboard
+          - users
+          - analytics
+    web:
+      pages:
+        - splash
+        - login
+        - users table view
+    ios:
+      pages:
+        - splash
+        - login
+        - users table view
+  api:
+    users:
+      id: increments
+      name: string
+      email: ['string', 'unique']
+      password: password
+      relations:
+        authour_id:
+          refs: 'id'
+          on: 'Users'
+      seeds:
+        nick:
+          id: 1
+          name: 'Nick'
+          description: 'Good guy'
+          user_id:  1
+        sam:
+          id: 2
+          name: 'Sam'
+          description: 'Nice nice guy'
+          user_id:  1
+    blog_posts:
+      id: increments
+      title: string
+      description: [text, nullable]
+      article: text
+      authour_id: ['integer', 'unsigned', 'nullable']
+      relations:
+        authour_id:
+          refs: 'id'
+          on: 'Users'
+      seeds:
+        nick:
+          id: 1
+          name: 'Nick'
+          description: 'Good guy'
+          user_id:  1
+        sam:
+          id: 2
+          name: 'Sam'
+          description: 'Nice nice guy'
+          user_id:  1
+  deploy:
+    framework: 'laravel'
